@@ -82,7 +82,8 @@ public class Form extends javax.swing.JFrame {
         for (Map.Entry<String, BPanel> entry : bPanels.entrySet()) {
             BPanel value = entry.getValue();
             value.getChrono().stop();
-            value.setColor(new Color(238, 238, 238));
+            value.setForeground(new Color(51, 51, 51));
+            value.setDefaultColor();
             value.updateText();
         }
         redraw();

@@ -7,7 +7,7 @@ import javax.swing.SwingUtilities;
  * @author xx450
  */
 public class BPanel extends javax.swing.JPanel implements Comparable<BPanel> {
-    
+
     private final Chrono chrono;
     private final Form parent;
     private final String label;
@@ -17,14 +17,14 @@ public class BPanel extends javax.swing.JPanel implements Comparable<BPanel> {
      */
     public BPanel(String label, int i, Form parent) {
         initComponents();
-        this.jButton1.setBackground(new java.awt.Color(238, 238, 238));
+        this.setDefaultColor();
         this.label = label;
         this.jButton1.setText(label);
         this.chrono = new Chrono();
         this.parent = parent;
-        
+
     }
-    
+
     public void updateText() {
         this.jButton1.setText(this.label + " " + this.chrono.toString());
         this.revalidate();
@@ -33,7 +33,7 @@ public class BPanel extends javax.swing.JPanel implements Comparable<BPanel> {
     public Chrono getChrono() {
         return chrono;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -80,7 +80,7 @@ public class BPanel extends javax.swing.JPanel implements Comparable<BPanel> {
             this.parent.stopAll();
         } else {
             this.parent.stopAll();
-            this.jButton1.setBackground(new java.awt.Color(238, 100, 100));
+            this.setAlternativeColor();
             this.getChrono().start();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -93,8 +93,14 @@ public class BPanel extends javax.swing.JPanel implements Comparable<BPanel> {
     private javax.swing.JPopupMenu jPopupMenu1;
     // End of variables declaration//GEN-END:variables
 
-    void setColor(Color color) {
-        this.jButton1.setBackground(color);
+    void setDefaultColor() {
+        this.jButton1.setBackground(new Color(238, 238, 238));
+        this.jButton1.setForeground(new Color(50, 50, 50));
+    }
+
+    void setAlternativeColor() {
+        this.jButton1.setBackground(new Color(238, 100, 100));
+        this.jButton1.setForeground(Color.white);
     }
 
     @Override
@@ -102,7 +108,7 @@ public class BPanel extends javax.swing.JPanel implements Comparable<BPanel> {
         this.chrono.normalize();
         int ret = Long.compare(o.getChrono().getTotal(), this.chrono.getTotal());
         if (ret == 0) {
-            ret = label.compareTo(o.label);
+            ret = this.label.compareTo(o.label);
         }
         return ret;
     }
