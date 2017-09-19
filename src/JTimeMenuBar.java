@@ -13,13 +13,11 @@ import javax.swing.JMenu;
  */
 public final class JTimeMenuBar extends javax.swing.JMenuBar {
     private final JMenu jMenu;
-    private final JTimeForm parrentFrame;
     
     public JTimeMenuBar(JTimeForm parrentFrame){
         super();
-        jMenu = new JTimeMenu("Options",parrentFrame);
+        jMenu = new JTimeMenu("Menu",parrentFrame);
         this.add(jMenu);
-        this.parrentFrame = parrentFrame;
     }
         
 }
