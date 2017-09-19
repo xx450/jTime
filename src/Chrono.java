@@ -38,7 +38,7 @@ public class Chrono {
     
     public long getTotal() {
         normalize();
-        return this.span;
+        return this.span / 1000 * 1000;
     }
 
     public void normalize() {
@@ -51,15 +51,17 @@ public class Chrono {
     @Override
     public String toString() {
         normalize();
-        
-        long total = span / 1000;
+        return "[" + formatMillis(span) + "]";
+    }
+    
+    public static String formatMillis(long millis) {
+        long total = millis / 1000;
         long hh = total / 60 / 60;
         total -= hh * 60 * 60;
         long mm = total / 60;
         total -= mm * 60;
         long ss = total % 60;
-        
-        return "[" + hh + "h" + mm + "m" + ss + "s]";
+        return hh + "h" + mm + "m" + ss + "s";
     }
         
 }

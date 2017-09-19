@@ -15,15 +15,16 @@ public class JTimeForm extends javax.swing.JFrame {
     Chrono chrono;
     Map<String, BPanel> bPanels = new HashMap<>();
     boolean jTimeAlwaysOnTop = false;
+    TPanel tPanel;
 
     public JTimeForm() {
         setSize(100, 300);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
 
-        this.chrono = new Chrono();
+        this.tPanel = new TPanel(this);
 
-        getContentPane().add(new TPanel(this));
+        getContentPane().add(tPanel);
         
         this.setJMenuBar(new JTimeMenuBar(this));
     }
@@ -62,11 +63,17 @@ public class JTimeForm extends javax.swing.JFrame {
                     newOrder.add(value);
                 }
                 
-                for (Component component : form.getComponents()) {
+                long grandTotal = 0;
+                
+                for (Component component : form.getContentPane().getComponents()) {
                     if (component instanceof BPanel) {
                         form.getContentPane().remove(component);
+                        grandTotal += ((BPanel) component).getChrono().getTotal();
                     }
                 }
+                
+                form.tPanel.getGrandTotalField().setText(Chrono.formatMillis(grandTotal));
+                
                 newOrder.stream().forEach((bPanel) -> {
                     form.getContentPane().add(bPanel);
                 });
