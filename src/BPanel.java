@@ -1,6 +1,5 @@
 
 import java.awt.Color;
-import javax.swing.SwingUtilities;
 
 /**
  *
@@ -83,6 +82,7 @@ public class BPanel extends javax.swing.JPanel implements Comparable<BPanel> {
             this.setAlternativeColor();
             this.getChrono().start();
         }
+        this.parent.update();
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

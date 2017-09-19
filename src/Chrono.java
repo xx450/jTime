@@ -38,6 +38,11 @@ public class Chrono {
     
     public long getTotal() {
         normalize();
+        return this.span;
+    }
+
+    public long getTotalRound() {
+        normalize();
         return this.span / 1000 * 1000;
     }
 

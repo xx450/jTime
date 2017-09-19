@@ -71,7 +71,7 @@ public class JTimeForm extends javax.swing.JFrame {
         for (Component component : getContentPane().getComponents()) {
             if (component instanceof BPanel) {
                 getContentPane().remove(component);
-                grandTotal += ((BPanel) component).getChrono().getTotal();
+                grandTotal += ((BPanel) component).getChrono().getTotalRound();
             }
         }
 
