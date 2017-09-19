@@ -25,7 +25,7 @@ public class JTimeForm extends javax.swing.JFrame {
         this.tPanel = new TPanel(this);
 
         getContentPane().add(tPanel);
-        
+
         this.setJMenuBar(new JTimeMenuBar(this));
     }
 
@@ -33,7 +33,7 @@ public class JTimeForm extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-                
+
         
         final JTimeForm form = new JTimeForm();
         form.setAlwaysOnTop(hasArg(args, "-alwaysOnTop"));
@@ -48,39 +48,40 @@ public class JTimeForm extends javax.swing.JFrame {
                 try {
                     while (true) {
                         Thread.sleep(1000);
-                        update();
+                        form.update();
                     }
                 } catch (InterruptedException ex) {
                     System.out.println("interrupted" + ex.getMessage());
                 }
             }
 
-            void update() {
-                Set<BPanel> newOrder = new TreeSet<>();
-                for (Map.Entry<String, BPanel> entry : form.bPanels.entrySet()) {
-                    BPanel value = entry.getValue();
-                    value.updateText();
-                    newOrder.add(value);
-                }
-                
-                long grandTotal = 0;
-                
-                for (Component component : form.getContentPane().getComponents()) {
-                    if (component instanceof BPanel) {
-                        form.getContentPane().remove(component);
-                        grandTotal += ((BPanel) component).getChrono().getTotal();
-                    }
-                }
-                
-                form.tPanel.getGrandTotalField().setText(Chrono.formatMillis(grandTotal));
-                
-                newOrder.stream().forEach((bPanel) -> {
-                    form.getContentPane().add(bPanel);
-                });
-                
-                form.redraw();
-            }
         }.start();
+    }
+
+    void update() {
+        Set<BPanel> newOrder = new TreeSet<>();
+        for (Map.Entry<String, BPanel> entry : bPanels.entrySet()) {
+            BPanel value = entry.getValue();
+            value.updateText();
+            newOrder.add(value);
+        }
+
+        long grandTotal = 0;
+
+        for (Component component : getContentPane().getComponents()) {
+            if (component instanceof BPanel) {
+                getContentPane().remove(component);
+                grandTotal += ((BPanel) component).getChrono().getTotal();
+            }
+        }
+
+        tPanel.getGrandTotalField().setText(Chrono.formatMillis(grandTotal));
+
+        newOrder.stream().forEach((bPanel) -> {
+            getContentPane().add(bPanel);
+        });
+
+        redraw();
     }
 
     void redraw() {
@@ -89,6 +90,7 @@ public class JTimeForm extends javax.swing.JFrame {
     }
 
     void stopAll() {
+        update();
         for (Map.Entry<String, BPanel> entry : bPanels.entrySet()) {
             BPanel value = entry.getValue();
             value.getChrono().stop();
@@ -98,7 +100,7 @@ public class JTimeForm extends javax.swing.JFrame {
         }
         redraw();
     }
-    
+
     static boolean hasArg(String args[], String wanted) {
         for (String arg : args) {
             if (arg.equalsIgnoreCase(arg)) {
