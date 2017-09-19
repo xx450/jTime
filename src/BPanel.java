@@ -9,13 +9,13 @@ import javax.swing.SwingUtilities;
 public class BPanel extends javax.swing.JPanel implements Comparable<BPanel> {
 
     private final Chrono chrono;
-    private final Form parent;
+    private final JTimeForm parent;
     private final String label;
 
     /**
      * Creates new form BPanel
      */
-    public BPanel(String label, int i, Form parent) {
+    public BPanel(String label, int i, JTimeForm parent) {
         initComponents();
         this.setDefaultColor();
         this.label = label;

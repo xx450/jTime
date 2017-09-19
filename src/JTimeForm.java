@@ -10,12 +10,13 @@ import java.util.TreeSet;
  *
  * @author xx450
  */
-public class Form extends javax.swing.JFrame {
+public class JTimeForm extends javax.swing.JFrame {
 
     Chrono chrono;
     Map<String, BPanel> bPanels = new HashMap<>();
+    boolean jTimeAlwaysOnTop = false;
 
-    public Form() {
+    public JTimeForm() {
         setSize(100, 300);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
@@ -23,6 +24,8 @@ public class Form extends javax.swing.JFrame {
         this.chrono = new Chrono();
 
         getContentPane().add(new TPanel(this));
+        
+        this.setJMenuBar(new JTimeMenuBar(this));
     }
 
     /**
@@ -31,7 +34,7 @@ public class Form extends javax.swing.JFrame {
     public static void main(String args[]) {
                 
         
-        final Form form = new Form();
+        final JTimeForm form = new JTimeForm();
         form.setAlwaysOnTop(hasArg(args, "-alwaysOnTop"));
 
         java.awt.EventQueue.invokeLater(() -> {
@@ -98,4 +101,11 @@ public class Form extends javax.swing.JFrame {
         return false;
     }
 
+    public boolean isjTimeAlwaysOnTop() {
+        return jTimeAlwaysOnTop;
+    }
+
+    public void setjTimeAlwaysOnTop(boolean jTimeAlwaysOnTop) {
+        this.jTimeAlwaysOnTop = jTimeAlwaysOnTop;
+    }
 }

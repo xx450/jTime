@@ -14,12 +14,12 @@ import java.util.Map;
  */
 public class TPanel extends javax.swing.JPanel {
 
-    private final Form parentForm;
+    private final JTimeForm parentForm;
     
     /**
      * Creates new form TPanel
      */
-    public TPanel(Form form) {
+    public TPanel(JTimeForm form) {
         this.parentForm = form;
         initComponents();
     }
