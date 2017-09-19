@@ -1,14 +1,7 @@
-
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
@@ -20,10 +13,21 @@ public final class JTimeMenu extends JMenu {
     public JTimeMenu(String label, JTimeForm parrentFrame){
         super(label);
         this.parrentFrame = parrentFrame;              
+        this.add(initUndecorated());
         this.add(initAlwaysOnTop());
     }
     
-    
+    JMenuItem initUndecorated(){
+        JMenuItem undecorated = new JCheckBoxMenuItem("Undecorated");
+        undecorated.setVisible(true);
+        undecorated.addActionListener((ActionEvent e) -> {
+            parrentFrame.dispose();
+            parrentFrame.setUndecorated(undecorated.isSelected());
+            parrentFrame.setVisible(true);
+        });     
+        return undecorated;
+    }
+        
     JMenuItem initAlwaysOnTop(){
         JMenuItem alwaysOnTop = new JCheckBoxMenuItem("Always on Top");
         alwaysOnTop.setVisible(true);
@@ -32,8 +36,6 @@ public final class JTimeMenu extends JMenu {
             parrentFrame.setAlwaysOnTop(parrentFrame.isjTimeAlwaysOnTop());
             alwaysOnTop.setArmed(parrentFrame.isjTimeAlwaysOnTop());
         });
-        
-        
         
         return alwaysOnTop;
     }
