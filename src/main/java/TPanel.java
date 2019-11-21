@@ -72,9 +72,9 @@ public class TPanel extends javax.swing.JPanel {
         if (bPanels.containsKey(label)) {
             return;
         } else {
-            bPanels.put(label, new BPanel(label, 0, this.parentForm));
+            bPanels.put(label, new BPanel(label, this.parentForm));
         }
-        parentForm.getContentPane().add(bPanels.get(label));
+        parentForm.scrollArea.add(bPanels.get(label));
         inputText.setText("");
         parentForm.redraw();
     }//GEN-LAST:event_inputTextActionPerformed

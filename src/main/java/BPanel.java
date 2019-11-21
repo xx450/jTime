@@ -14,7 +14,7 @@ public class BPanel extends javax.swing.JPanel implements Comparable<BPanel> {
     /**
      * Creates new form BPanel
      */
-    public BPanel(String label, int i, JTimeForm parent) {
+    public BPanel(String label, JTimeForm parent) {
         initComponents();
         this.setDefaultColor();
         this.label = label;
@@ -25,7 +25,7 @@ public class BPanel extends javax.swing.JPanel implements Comparable<BPanel> {
     }
 
     public void updateText() {
-        this.jButton1.setText(this.label + " " + this.chrono.toString());
+        this.jButton1.setText(this.chrono.toString() + " " + this.label);
         this.revalidate();
     }
 
@@ -78,9 +78,7 @@ public class BPanel extends javax.swing.JPanel implements Comparable<BPanel> {
         if (this.chrono.isStarted()) {
             this.parent.stopAll();
         } else {
-            this.parent.stopAll();
-            this.setAlternativeColor();
-            this.getChrono().start();
+            this.activate();
         }
         this.parent.update();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -111,5 +109,11 @@ public class BPanel extends javax.swing.JPanel implements Comparable<BPanel> {
             ret = this.label.compareTo(o.label);
         }
         return ret;
+    }
+    
+    public void activate() {
+        this.parent.stopAll();
+        this.setAlternativeColor();
+        this.getChrono().start();
     }
 }

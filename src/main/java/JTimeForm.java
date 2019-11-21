@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -12,10 +14,15 @@ import java.util.TreeSet;
  */
 public class JTimeForm extends javax.swing.JFrame {
 
+    public static String ENV_JTIME_FILEIN = System.getenv("JTIME_FILEIN");
+
     Chrono chrono;
     Map<String, BPanel> bPanels = new HashMap<>();
     boolean jTimeAlwaysOnTop = false;
+    boolean useJtimeIn = false;
     TPanel tPanel;
+    FileFeeder fileWatch;
+    JPanel scrollArea;
 
     public JTimeForm() {
         setSize(100, 300);
@@ -23,10 +30,19 @@ public class JTimeForm extends javax.swing.JFrame {
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
 
         this.tPanel = new TPanel(this);
+        this.setTitle("jTime");
 
         getContentPane().add(tPanel);
+        JScrollPane scroller = new JScrollPane();
+        scrollArea = new JPanel();
+        scrollArea.setLayout(new javax.swing.BoxLayout(scrollArea, javax.swing.BoxLayout.Y_AXIS));
+        scroller.add(scrollArea);
+        scroller.setViewportView(scrollArea);
+        scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        getContentPane().add(scroller);
 
         this.setJMenuBar(new JTimeMenuBar(this));
+        this.fileWatch = new FileFeeder(this);
     }
 
     /**
@@ -34,7 +50,6 @@ public class JTimeForm extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
 
-        
         final JTimeForm form = new JTimeForm();
         form.setAlwaysOnTop(hasArg(args, "-alwaysOnTop"));
 
@@ -68,9 +83,9 @@ public class JTimeForm extends javax.swing.JFrame {
 
         long grandTotal = 0;
 
-        for (Component component : getContentPane().getComponents()) {
+        for (Component component : scrollArea.getComponents()) {
             if (component instanceof BPanel) {
-                getContentPane().remove(component);
+                scrollArea.remove(component);
                 grandTotal += ((BPanel) component).getChrono().getTotalRound();
             }
         }
@@ -78,7 +93,7 @@ public class JTimeForm extends javax.swing.JFrame {
         tPanel.getGrandTotalField().setText(Chrono.formatMillis(grandTotal));
 
         newOrder.stream().forEach((bPanel) -> {
-            getContentPane().add(bPanel);
+            scrollArea.add(bPanel);
         });
 
         redraw();
@@ -117,4 +132,13 @@ public class JTimeForm extends javax.swing.JFrame {
     public void setjTimeAlwaysOnTop(boolean jTimeAlwaysOnTop) {
         this.jTimeAlwaysOnTop = jTimeAlwaysOnTop;
     }
+
+    public void setUseJtimeIn(boolean useJtimeIn) {
+        this.useJtimeIn = useJtimeIn;
+    }
+
+    public boolean isUseJtimeIn() {
+        return useJtimeIn;
+    }
+
 }

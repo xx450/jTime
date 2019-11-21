@@ -15,6 +15,7 @@ public final class JTimeMenu extends JMenu {
         this.parrentFrame = parrentFrame;              
         this.add(initUndecorated());
         this.add(initAlwaysOnTop());
+        this.add(initJtimeIn());
     }
     
     JMenuItem initUndecorated(){
@@ -38,6 +39,17 @@ public final class JTimeMenu extends JMenu {
         });
         
         return alwaysOnTop;
+    }
+    
+    JMenuItem initJtimeIn() {
+        JMenuItem jtimeIn = new JCheckBoxMenuItem("Use n:\\jtime.in");
+        jtimeIn.setVisible(true);
+        jtimeIn.addActionListener((ActionEvent e) -> {
+            parrentFrame.setUseJtimeIn(!parrentFrame.isjTimeAlwaysOnTop());
+            parrentFrame.fileWatch.enable(parrentFrame.isUseJtimeIn());
+        });
+        
+        return jtimeIn;
     }
     
     
