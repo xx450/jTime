@@ -15,6 +15,11 @@ public class FileFeeder {
 
     public Path path = Paths.get(JTimeForm.ENV_JTIME_FILEIN != null ? JTimeForm.ENV_JTIME_FILEIN : "jtime.in");
     public String lastContent;
+    
+    public String[][] mappers = new String[][] {
+        {".*(Google Chrome).*", "Google Chrome"},
+        {".*(X2GO).*", "X2goClient"}
+    };
 
     public void enable(boolean enable) {
         if (!enable) {
@@ -23,15 +28,21 @@ public class FileFeeder {
             }
         } else {
             if (!Files.exists(path)) {
-                System.out.println(path.toAbsolutePath() + " doesn't exist.");
+                JTime.LOG.info(path.toAbsolutePath() + " doesn't exist.");
                 return;
             }
             es = Executors.newSingleThreadExecutor();
             es.submit(() -> {
-                while (true) {
+                Thread cThread = Thread.currentThread();
+                JTime.LOG.info(cThread + " has just started.");
+                while (!cThread.isInterrupted()) {
                     String readFile = readFile();
                     if (readFile == null) {
-                        TimeUnit.SECONDS.sleep(2);
+                        try {
+                            TimeUnit.SECONDS.sleep(2);
+                        } catch (InterruptedException ex) {
+                            cThread.interrupt();
+                        }
                         continue;
                     }
                     BPanel button = parent.bPanels.get(readFile);
@@ -41,13 +52,17 @@ public class FileFeeder {
                     }
                     button.activate();
                 }
+                JTime.LOG.info(cThread + " has ended loop.");
             });
         }
     }
 
     public String readFile() {
         try {
-            String content = new String(Files.readAllBytes(path));
+            String content = new String(Files.readAllBytes(path), "UTF-8");
+            for (String[] mapper : mappers) {
+                content = content.replaceAll(mapper[0], mapper[1]);
+            }
             if (!content.equals(lastContent)) {
                 lastContent = content;
                 return lastContent;

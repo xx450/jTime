@@ -45,7 +45,7 @@ public final class JTimeMenu extends JMenu {
         JMenuItem jtimeIn = new JCheckBoxMenuItem("Use jtime.in");
         jtimeIn.setVisible(true);
         jtimeIn.addActionListener((ActionEvent e) -> {
-            parrentFrame.setUseJtimeIn(!parrentFrame.isjTimeAlwaysOnTop());
+            parrentFrame.setUseJtimeIn(!parrentFrame.isUseJtimeIn());
             parrentFrame.fileWatch.enable(parrentFrame.isUseJtimeIn());
         });
         

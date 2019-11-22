@@ -102,6 +102,11 @@ public class JTimeForm extends javax.swing.JFrame {
     void redraw() {
         repaint();
         revalidate();
+        bPanels.forEach((k, bPanel) -> {
+            if (bPanel.isActive()) {
+                scrollArea.scrollRectToVisible(bPanel.getBounds());
+            }
+        });
     }
 
     void stopAll() {
@@ -112,6 +117,7 @@ public class JTimeForm extends javax.swing.JFrame {
             value.setForeground(new Color(51, 51, 51));
             value.setDefaultColor();
             value.updateText();
+            value.setActive(false);
         }
         redraw();
     }

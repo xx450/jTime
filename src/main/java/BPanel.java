@@ -10,6 +10,7 @@ public class BPanel extends javax.swing.JPanel implements Comparable<BPanel> {
     private final Chrono chrono;
     private final JTimeForm parent;
     private final String label;
+    private boolean active = false;
 
     /**
      * Creates new form BPanel
@@ -115,5 +116,15 @@ public class BPanel extends javax.swing.JPanel implements Comparable<BPanel> {
         this.parent.stopAll();
         this.setAlternativeColor();
         this.getChrono().start();
+        this.active = true;
     }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
 }
