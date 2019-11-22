@@ -16,6 +16,7 @@ public final class JTimeMenu extends JMenu {
         this.add(initUndecorated());
         this.add(initAlwaysOnTop());
         this.add(initJtimeIn());
+        this.add(initTaskMappers());
     }
     
     JMenuItem initUndecorated(){
@@ -50,6 +51,17 @@ public final class JTimeMenu extends JMenu {
         });
         
         return jtimeIn;
+    }
+    
+    JMenuItem initTaskMappers() {
+        JMenuItem taskMappers = new JMenuItem("Task Mappers");
+        taskMappers.setVisible(true);
+        taskMappers.addActionListener((ActionEvent e) -> {
+            MappersDialog dialog = new MappersDialog(this.parrentFrame, this.parrentFrame.fileWatch);
+            dialog.setVisible(true);
+        });
+        
+        return taskMappers;
     }
     
     

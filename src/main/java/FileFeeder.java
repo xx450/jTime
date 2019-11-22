@@ -3,6 +3,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -16,9 +18,15 @@ public class FileFeeder {
     public Path path = Paths.get(JTimeForm.ENV_JTIME_FILEIN != null ? JTimeForm.ENV_JTIME_FILEIN : "jtime.in");
     public String lastContent;
     
-    public String[][] mappers = new String[][] {
-        {".*(Google Chrome).*", "Google Chrome"},
-        {".*(X2GO).*", "X2goClient"}
+    public List<String[]> mappers = new ArrayList<String[]>() {
+        {
+            add(new String[] {".*(Google Chrome).*", "Google Chrome"});
+            add(new String[] {".*(Internet Explorer).*", "Internet Explorer"});
+            add(new String[] {".*(Notepad++).*", "Notepad++"});
+            add(new String[] {".*( - draw.io)", "Draw.io"});
+            add(new String[] {".*(Outlook|Message [(]HTML[)]).*", "Outlook"});
+            add(new String[] {".*(X2GO).*", "X2goClient"});
+        }
     };
 
     public void enable(boolean enable) {
@@ -78,6 +86,14 @@ public class FileFeeder {
 
     public FileFeeder(JTimeForm parent) {
         this.parent = parent;
+    }
+
+    void setMappers(List<String[]> ret) {
+        this.mappers = ret;
+    }
+
+    List<String[]> getMappers() {
+        return this.mappers;
     }
     
 }
